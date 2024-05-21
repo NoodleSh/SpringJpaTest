@@ -25,13 +25,13 @@ public class MenuService {
     private final ModelMapper modelMapper;
     private final CategoryRepository categoryRepository;
 
-    /* 1. findById */
+
     public MenuDTO findMenuByMenuCode(int menuCode) {
         Menu foundMenu = menuRepository.findById(menuCode).orElseThrow(IllegalArgumentException::new);
         return modelMapper.map(foundMenu, MenuDTO.class);
     }
 
-    /* 2. findAll : Sort */
+
     public List<MenuDTO> findMenuList() {
         List<Menu> menuList = menuRepository.findAll(Sort.by("menuCode").descending());
         return menuList.stream()
@@ -39,7 +39,7 @@ public class MenuService {
                 .toList();
     }
 
-    /* 3. findAll : Pageable */
+
 
     public Page<MenuDTO> findMenuList(Pageable pageable){
         pageable = PageRequest.of(
@@ -52,7 +52,7 @@ public class MenuService {
 
     }
 
-    /* 4. Query Method */
+
     public List<MenuDTO> findByMenuPrice(Integer menuPrice) {
 
         List<Menu> menuList = menuRepository.findByMenuPriceGreaterThan(
@@ -65,7 +65,7 @@ public class MenuService {
                 .toList();
     }
 
-    /* 5. JPQL or Native Query */
+
     public List<CategoryDTO> findAllCategory() {
 
          List<Category> categoryList = categoryRepository.findAllCategory();
@@ -74,23 +74,22 @@ public class MenuService {
                 .toList();
     }
 
-    /* 6. save */
-    @Transactional
+    /* 6. save */ @Transactional
     public void registMenu(MenuDTO menuDTO) {
 
         menuRepository.save(modelMapper.map(menuDTO, Menu.class));
     }
 
-    /* 7. 수정 ( 엔티티 객체 필드 값 변경) */
+
     @Transactional
     public void modifyMenu(MenuDTO menuDTO) {
 
         Menu foundMenu = menuRepository.findById(menuDTO.getMenuCode()).orElseThrow(IllegalArgumentException::new);
-        /**/
+
         foundMenu.modifyMenuName(menuDTO.getMenuName());
     }
 
-    /* 8. deleteById */
+
     @Transactional
     public void deleteMenu(Integer menuCode) {
 

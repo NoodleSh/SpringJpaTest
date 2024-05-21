@@ -37,11 +37,6 @@ public class MenuController {
     @GetMapping("/list")
     public String findMenuList(Model model, @PageableDefault Pageable pageable){
 
-        /* 페이징 처리 이전 */
-//        List<MenuDTO> menuList = menuService.findMenuList();
-//        model.addAttribute("menuList", menuList);
-
-        /* 페이징 처리 이후 */
         log.info("pageable: {}", pageable);
 
         Page<MenuDTO> menuList = menuService.findMenuList(pageable);
